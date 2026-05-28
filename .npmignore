@@ -1,0 +1,9 @@
+test/
+benchmarks/
+scripts/
+playground/
+.github/
+coverage/
+*.test.js
+.env
+.DS_Store
