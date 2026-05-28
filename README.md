@@ -1,7 +1,7 @@
 # PASH — Protocol for Agentic Semantic Hypermedia
 
 [![npm](https://img.shields.io/npm/v/pash-sdk)](https://www.npmjs.com/package/pash-sdk)
-[![CI](https://github.com/YOUR/pash/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR/pash/actions)
+[![CI](https://github.com/AkynZH/pash-sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/AkynZH/pash-sdk/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 > **The AI doesn't write markup. It sends intent. The client renders.**
@@ -230,7 +230,7 @@ setLocale('ru-RU');  // price: 69990 → 69 990 ₽  (default)
 
 - [Specification](spec/pash-v1.md)
 - [System Prompts](SYSTEM_PROMPT.md)
-- [Playground](https://YOUR.github.io/pash)
+- [Playground](https://AkynZH.github.io/pash-sdk)
 - [Contributing](CONTRIBUTING.md)
 - [Changelog](CHANGELOG.md)
 
