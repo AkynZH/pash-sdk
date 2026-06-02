@@ -1,6 +1,5 @@
 'use strict';
 
-const { generateSystemPrompt } = require('../src/prompt');
 const { decodeStream }         = require('../src/parser');
 const { validateStream }       = require('../src/validator');
 const { renderStream }         = require('../src/renderer');
@@ -13,14 +12,6 @@ const { SCHEMAS }              = require('../src/schema');
 afterEach(() => setLocale('ru-RU'));
 
 describe('Full pipeline', () => {
-  test('промпт содержит все компоненты', () => {
-    const p = generateSystemPrompt({ lang: 'ru', mode: 'pash' });
-    expect(p).toContain('ProductCard');
-    expect(p).toContain('Notification');
-    expect(p).toContain('Paragraph');
-    expect(p).toContain('Heading');
-  });
-
   test('типичный AI-ответ декодируется корректно', () => {
     const ai = 'v:1\n1|Смартфон X1|AMOLED 120Hz|69990|Заказать\n2|warn|Последний в наличии';
     const r  = decodeStream(ai);
@@ -129,9 +120,4 @@ describe('registerComponent интеграция', () => {
     })).toThrow(/зарезервирован/);
   });
 
-  test('промпт включает новый компонент', () => {
-    const p = generateSystemPrompt({ lang: 'ru' });
-    expect(p).toContain('TestWidget');
-    expect(p).toContain('50');
-  });
 });

@@ -5,7 +5,6 @@ const { decodeStream }         = require('../src/parser');
 const { encodeStream }         = require('../src/encoder');
 const { validateStream }       = require('../src/validator');
 const { renderStream }         = require('../src/renderer');
-const { generateSystemPrompt } = require('../src/prompt');
 const { pashToEvents }         = require('../src/events');
 const { VERSION }              = require('../src/version');
 
@@ -102,9 +101,25 @@ async function run() {
     }
 
     case 'prompt': {
+      let promptPkg;
+      try {
+        promptPkg = require('@pash/prompt');
+      } catch {
+        console.error(
+          'Error: @pash/prompt is not installed.\n' +
+          'Run: npm install @pash/prompt\n' +
+          '\n' +
+          'Note: generateSystemPrompt was moved to @pash/prompt\n' +
+          'because pash-sdk is LLM-agnostic (does not contain prompt logic).'
+        );
+        process.exit(1);
+      }
+      const { SCHEMAS } = require('../src/schema');
       const lang = opts.lang || 'ru';
       const mode = opts.mode || 'pash';
-      console.log(generateSystemPrompt({ lang, mode }));
+      const { PromptEngine } = promptPkg;
+      const engine = new PromptEngine({ schemas: SCHEMAS });
+      console.log(engine.generate({ lang, mode }));
       break;
     }
 

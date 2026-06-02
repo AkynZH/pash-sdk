@@ -1,8 +1,49 @@
 # Changelog
 
-All notable changes to pash-sdk are documented here.  
-Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)  
+All notable changes to pash-sdk are documented here.
+Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 Versioning: [SemVer](https://semver.org/)
+
+---
+
+## [1.1.0] — Breaking Change
+
+### Removed
+- `generateSystemPrompt()` removed from `pash-sdk` exports
+- `src/prompt.js` deleted from pash-sdk
+- `scripts/generate-prompt.js` deleted from pash-sdk
+- `npm run prompt` script removed from pash-sdk
+
+### Why
+pash-sdk is now LLM-agnostic. It does not contain any LLM-related logic.
+See architectural decision: PASH = pure protocol, LLM = external plugin.
+
+### Migration
+
+**Before:**
+```js
+const { generateSystemPrompt } = require('pash-sdk');
+const prompt = generateSystemPrompt({ lang: 'ru', mode: 'pash' });
+```
+
+**After:**
+```bash
+npm install @pash/prompt
+```
+```js
+const { PromptEngine } = require('@pash/prompt');
+const { SCHEMAS }      = require('pash-sdk');
+
+const engine = new PromptEngine({ schemas: SCHEMAS });
+const prompt = engine.generate({ lang: 'ru', mode: 'pash' });
+```
+
+### Added
+- `@pash/prompt` — new standalone package for LLM prompt generation
+- `PromptEngine` class — schema-aware prompt builder
+- Supports all modes: `pash`, `pash+id`, `events`
+- Supports all languages: `ru`, `en`
+- LLM-agnostic: works with GPT-4, Claude, Llama, any model
 
 ---
 

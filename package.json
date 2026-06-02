@@ -1,7 +1,7 @@
 {
   "name": "pash-sdk",
   "version": "1.0.0",
-  "description": "Protocol for Agentic Semantic Hypermedia — token-efficient UI format for AI agents",
+  "description": "PASH — Protocol for Agentic Semantic Hypermedia. LLM-agnostic UI protocol. For prompt generation use @pash/prompt.",
   "main": "dist/pash.cjs.js",
   "module": "dist/pash.esm.js",
   "browser": "dist/pash.browser.js",
@@ -36,7 +36,6 @@
     "test": "jest --forceExit",
     "test:coverage": "jest --coverage --forceExit",
     "test:watch": "jest --watch",
-    "prompt": "node scripts/generate-prompt.js",
     "benchmark": "node benchmarks/token-count.js",
     "prepublishOnly": "npm run build && npm test",
     "release": "node scripts/publish.sh"

@@ -205,10 +205,16 @@ function render(){
 }
 
 function renderPromptTab(){
-  const prompt=PASH.generateSystemPrompt({lang:'ru',mode:'pash'});
+  const errorMsg = '⚠ @pash/prompt required\n\n' +
+    'pash-sdk is LLM-agnostic and no longer includes prompt generation.\n' +
+    'Install @pash/prompt to generate system prompts in the playground:\n\n' +
+    '  npm install @pash/prompt\n\n' +
+    'Then use generateSystemPrompt.js from the @pash/prompt package\n' +
+    'or integrate PromptEngine into your app.';
+  const prompt = errorMsg;
   document.getElementById('main').innerHTML=`
   <div class="panel" style="grid-column:1/-1">
-    <div class="ph"><span>System Prompt — RU / mode: pash</span><button onclick="copyPrompt()" style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--fg2);padding:3px 8px;cursor:pointer;font-size:10px;font-family:var(--font-mono)">Copy</button></div>
+    <div class="ph"><span>System Prompt — @pash/prompt required</span><button onclick="copyPrompt()" style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--fg2);padding:3px 8px;cursor:pointer;font-size:10px;font-family:var(--font-mono)">Copy</button></div>
     <pre id="prompt-pre" style="flex:1;padding:16px;font-size:11px;color:var(--fg2);font-family:var(--font-mono);line-height:1.7;overflow-y:auto;white-space:pre-wrap;word-break:break-word">${esc(prompt)}</pre>
   </div>`;
 }

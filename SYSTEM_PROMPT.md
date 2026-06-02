@@ -1,8 +1,11 @@
-# PASH System Prompt Reference — v1.0.0
+# PASH System Prompt Reference — v1.1.0
 
 > **Auto-generated.** Do not edit manually.
-> Source: `src/schema.js` + `src/prompt.js`
-> Regenerate: `npm run prompt`
+> Source: `src/schema.js` (pash-sdk) + `@pash/prompt` package
+> Regenerate: `node node_modules/@pash/prompt/scripts/generate-system-prompt.js`
+>
+> NOTE: `generateSystemPrompt` is no longer part of pash-sdk.
+> pash-sdk is LLM-agnostic. Use `@pash/prompt` for prompt generation.
 
 Copy the block matching your language and mode into your LLM system role.
 

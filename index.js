@@ -3,6 +3,9 @@
 /**
  * PASH SDK — Protocol for Agentic Semantic Hypermedia
  * Public API
+ *
+ * NOTE: generateSystemPrompt is NOT part of pash-sdk.
+ * Use @pash/prompt package for LLM prompt generation.
  */
 
 // Schemas
@@ -35,9 +38,6 @@ const { validateComponent, validateStream } = require('./src/validator');
 
 // Extension
 const { registerComponent, isRegistered, listComponents } = require('./src/extend');
-
-// Prompt
-const { generateSystemPrompt }              = require('./src/prompt');
 
 // Version
 const { VERSION }                           = require('./src/version');
@@ -95,9 +95,6 @@ module.exports = {
   registerComponent,
   isRegistered,
   listComponents,
-
-  // ─── System Prompt ──────────────────────────────────────────────────────────
-  generateSystemPrompt,
 
   // ─── Meta ───────────────────────────────────────────────────────────────────
   VERSION,

@@ -29,10 +29,18 @@ Your client knows `1 = ProductCard`, renders it with your CSS, your locale, your
 
 ### Step 1 — Get the system prompt
 
-```js
-const { generateSystemPrompt } = require('pash-sdk');
+pash-sdk is LLM-agnostic. For prompt generation install @pash/prompt:
 
-const system = generateSystemPrompt({ lang: 'ru', mode: 'pash' });
+```bash
+npm install pash-sdk @pash/prompt
+```
+
+```js
+const { PromptEngine } = require('@pash/prompt');
+const { SCHEMAS }      = require('pash-sdk');
+
+const engine = new PromptEngine({ schemas: SCHEMAS });
+const system = engine.generate({ lang: 'ru', mode: 'pash' });
 // Auto-generated from your component registry. Always in sync.
 ```
 
@@ -167,7 +175,8 @@ COMP_ID|field1|field2|field3|...
 | `setLocale` / `addLocale` | i18n: ru-RU, en-US, de-DE + custom |
 | `validateStream` | Validate against schema |
 | `registerComponent` | Add custom component (ID 40+) |
-| `generateSystemPrompt` | System prompt, always in sync with registry |
+| ~~generateSystemPrompt~~         | Moved to @pash/prompt (LLM-agnostic split) |
+| **@pash/prompt** (separate pkg)  | Prompt Engine for any LLM                    |
 | `VERSION` | SDK version string |
 
 ---

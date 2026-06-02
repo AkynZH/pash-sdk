@@ -10,7 +10,7 @@ Thank you for your interest. PASH is an open protocol and grows with the communi
 git clone https://github.com/YOUR/pash
 cd pash
 npm install
-npm test          # all 218 tests must pass
+npm test          # all tests must pass
 ```
 
 ---
@@ -49,11 +49,16 @@ playground/     — Browser playground
 ## PR rules
 
 1. One task — one PR.
-2. All tests pass: `npm test` (218 green).
+2. All tests pass: `npm test`.
 3. New functionality → new tests.
 4. `types/index.d.ts` updated if new public API.
 5. `spec/pash-v1.md` updated if protocol changes.
-6. `npm run prompt` run and `SYSTEM_PROMPT.md` committed if schemas changed.
+6. If schemas changed, regenerate SYSTEM_PROMPT.md:
+   ```bash
+   npm install @pash/prompt
+   node node_modules/@pash/prompt/scripts/generate-system-prompt.js
+   ```
+   Then commit updated `SYSTEM_PROMPT.md`.
 7. Commit format: `feat: add X` / `fix: Y` / `docs: update Z` / `test: add X tests`.
 
 ---
@@ -65,7 +70,12 @@ The most common contribution. Steps:
 1. Add schema to `src/schema-ui.js` (UI) or propose community standard (ID 33–39)
 2. Add renderer function to `src/renderer.js` + add to `RENDERERS` map
 3. Write tests in `test/renderer.test.js` and `test/pash-doc.test.js`
-4. Run `npm run prompt` → commit updated `SYSTEM_PROMPT.md`
+4. Regenerate SYSTEM_PROMPT.md:
+   ```bash
+   npm install @pash/prompt
+   node node_modules/@pash/prompt/scripts/generate-system-prompt.js
+   ```
+   Then commit updated `SYSTEM_PROMPT.md`.
 5. Add example to `spec/pash-v1.md`
 6. Update `CHANGELOG.md`
 

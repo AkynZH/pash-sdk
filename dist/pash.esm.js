@@ -1131,222 +1131,13 @@ var require_extend = __commonJS({
   }
 });
 
-// src/prompt.js
-var require_prompt = __commonJS({
-  "src/prompt.js"(exports, module) {
-    "use strict";
-    var { SCHEMAS } = require_schema();
-    function generateSystemPrompt(options) {
-      options = options || {};
-      const schemas = options.schemas || SCHEMAS;
-      const mode = options.mode || "pash";
-      const lang = options.lang || "ru";
-      const ctx = { schemas, mode };
-      return lang === "en" ? _buildEn(ctx) : _buildRu(ctx);
-    }
-    function _buildRu(ctx) {
-      return [
-        "# \u0421\u0438\u0441\u0442\u0435\u043C\u043D\u044B\u0439 \u043F\u0440\u043E\u043C\u043F\u0442: PASH v1 (Protocol for Agentic Semantic Hypermedia)",
-        "",
-        "## \u0422\u0432\u043E\u044F \u0440\u043E\u043B\u044C",
-        "\u0422\u044B \u2014 \u043F\u043E\u0441\u0442\u0430\u0432\u0449\u0438\u043A \u0434\u0430\u043D\u043D\u044B\u0445 \u0438 \u043D\u0430\u043C\u0435\u0440\u0435\u043D\u0438\u0439, \u0430 \u043D\u0435 \u0432\u0435\u0440\u0441\u0442\u0430\u043B\u044C\u0449\u0438\u043A.",
-        "\u0422\u044B \u041D\u0415 \u043F\u0438\u0448\u0435\u0448\u044C HTML, Markdown, CSS \u0438\u043B\u0438 \u043E\u0431\u044B\u0447\u043D\u044B\u0439 \u0442\u0435\u043A\u0441\u0442 \u0432 \u043E\u0442\u0432\u0435\u0442\u0430\u0445 \u0441 UI.",
-        "\u0422\u044B \u0433\u0435\u043D\u0435\u0440\u0438\u0440\u0443\u0435\u0448\u044C \u0441\u0442\u0440\u0443\u043A\u0442\u0443\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u043D\u044B\u0439 \u043F\u043E\u0442\u043E\u043A \u0432 \u0444\u043E\u0440\u043C\u0430\u0442\u0435 PASH.",
-        "",
-        "## \u0424\u043E\u0440\u043C\u0430\u0442 \u043E\u0442\u0432\u0435\u0442\u0430",
-        "",
-        _buildRules(ctx.mode, "ru"),
-        "",
-        "## \u0420\u0435\u0435\u0441\u0442\u0440 \u043A\u043E\u043C\u043F\u043E\u043D\u0435\u043D\u0442\u043E\u0432",
-        "",
-        _buildRegistry(ctx.schemas, ctx.mode),
-        "",
-        _buildRichtextNote("ru"),
-        "",
-        "## \u041F\u0440\u0438\u043C\u0435\u0440\u044B",
-        "",
-        _buildExamples(ctx.schemas, ctx.mode),
-        "",
-        "## \u0421\u0442\u0440\u043E\u0433\u0438\u0435 \u0437\u0430\u043F\u0440\u0435\u0442\u044B",
-        "",
-        '- \u041D\u0415 \u0434\u043E\u0431\u0430\u0432\u043B\u044F\u0439 \u043F\u043E\u044F\u0441\u043D\u0435\u043D\u0438\u044F \u043A PASH-\u043E\u0442\u0432\u0435\u0442\u0443 ("\u0412\u043E\u0442 \u043A\u0430\u0440\u0442\u043E\u0447\u043A\u0430:", "\u0420\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442:")',
-        "- \u041D\u0415 \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0439 Markdown-\u0440\u0430\u0437\u043C\u0435\u0442\u043A\u0443 \u0432\u043D\u0435 richtext-\u043F\u043E\u043B\u0435\u0439",
-        "- \u041D\u0415 \u0434\u043E\u0431\u0430\u0432\u043B\u044F\u0439 \u0441\u0438\u043C\u0432\u043E\u043B \u0432\u0430\u043B\u044E\u0442\u044B \u2014 \u0442\u043E\u043B\u044C\u043A\u043E \u0447\u0438\u0441\u0442\u043E\u0435 \u0447\u0438\u0441\u043B\u043E (69990, \u043D\u0435 69990\u20BD)",
-        "- \u041D\u0415 \u0438\u0437\u043C\u0435\u043D\u044F\u0439 \u043F\u043E\u0440\u044F\u0434\u043E\u043A \u043F\u043E\u043B\u0435\u0439 \u2014 \u0442\u043E\u043B\u044C\u043A\u043E \u043F\u043E \u0441\u0445\u0435\u043C\u0435",
-        "- \u041D\u0415 \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0439 \u043D\u0435\u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u044E\u0449\u0438\u0435 ID \u043A\u043E\u043C\u043F\u043E\u043D\u0435\u043D\u0442\u043E\u0432",
-        "- \u0415\u0441\u043B\u0438 \u0434\u0430\u043D\u043D\u044B\u0445 \u0434\u043B\u044F \u043F\u043E\u043B\u044F \u043D\u0435\u0442 \u2014 \u043E\u0441\u0442\u0430\u0432\u044C \u043F\u043E\u043B\u0435 \u043F\u0443\u0441\u0442\u044B\u043C, \u043D\u0435 \u043F\u0440\u043E\u043F\u0443\u0441\u043A\u0430\u0439 \u0440\u0430\u0437\u0434\u0435\u043B\u0438\u0442\u0435\u043B\u044C |",
-        "- \u0417\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0438 (#) \u0432\u043D\u0443\u0442\u0440\u0438 richtext-\u043F\u043E\u043B\u0435\u0439 \u0417\u0410\u041F\u0420\u0415\u0429\u0415\u041D\u042B \u2014 \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0439 \u043A\u043E\u043C\u043F\u043E\u043D\u0435\u043D\u0442 20",
-        "",
-        "## Fallback",
-        "",
-        "\u0415\u0441\u043B\u0438 \u0437\u0430\u043F\u0440\u043E\u0441 \u043D\u0435 \u0442\u0440\u0435\u0431\u0443\u0435\u0442 UI \u2014 \u043E\u0442\u0432\u0435\u0447\u0430\u0439 \u043E\u0431\u044B\u0447\u043D\u044B\u043C \u0442\u0435\u043A\u0441\u0442\u043E\u043C.",
-        "\u0415\u0441\u043B\u0438 \u043D\u0443\u0436\u043D\u043E\u0433\u043E \u043A\u043E\u043C\u043F\u043E\u043D\u0435\u043D\u0442\u0430 \u043D\u0435\u0442 \u2014 \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0439 \u0431\u043B\u0438\u0436\u0430\u0439\u0448\u0438\u0439 \u043F\u043E\u0434\u0445\u043E\u0434\u044F\u0449\u0438\u0439."
-      ].join("\n");
-    }
-    function _buildEn(ctx) {
-      return [
-        "# System Prompt: PASH v1 (Protocol for Agentic Semantic Hypermedia)",
-        "",
-        "## Your role",
-        "You are a data and intent provider, not a markup writer.",
-        "You do NOT write HTML, Markdown, CSS, or plain prose for UI responses.",
-        "You generate structured output in PASH format.",
-        "",
-        "## Response format",
-        "",
-        _buildRules(ctx.mode, "en"),
-        "",
-        "## Component registry",
-        "",
-        _buildRegistry(ctx.schemas, ctx.mode),
-        "",
-        _buildRichtextNote("en"),
-        "",
-        "## Examples",
-        "",
-        _buildExamples(ctx.schemas, ctx.mode),
-        "",
-        "## Strict prohibitions",
-        "",
-        '- Do NOT add commentary ("Here is a card:", "Result:")',
-        "- Do NOT use Markdown formatting outside richtext fields",
-        "- Do NOT include currency symbols \u2014 raw numbers only (69990, not $69990)",
-        "- Do NOT reorder fields \u2014 follow the schema strictly",
-        "- Do NOT invent component IDs not in the registry",
-        "- If a field has no data \u2014 leave it empty, do NOT skip the | separator",
-        "- Headings (#) inside richtext fields are FORBIDDEN \u2014 use component 20",
-        "",
-        "## Fallback",
-        "",
-        "If the request does not need UI \u2014 respond in plain text.",
-        "If no matching component exists \u2014 use the closest one."
-      ].join("\n");
-    }
-    function _buildRules(mode, lang) {
-      if (mode === "events") {
-        return lang === "ru" ? "\u0418\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0439 Event Stream \u0444\u043E\u0440\u043C\u0430\u0442:\nCOMP_START(ID)\nTEXT(\u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435) | PRICE(\u0447\u0438\u0441\u043B\u043E) | LIST(a,b,c) | ENUM(val) | RICHTEXT(\u0442\u0435\u043A\u0441\u0442)\nCOMP_END(ID)\n\u041A\u0430\u0436\u0434\u043E\u0435 \u0441\u043E\u0431\u044B\u0442\u0438\u0435 \u2014 \u043E\u0442\u0434\u0435\u043B\u044C\u043D\u0430\u044F \u0441\u0442\u0440\u043E\u043A\u0430." : "Use Event Stream format:\nCOMP_START(ID)\nTEXT(value) | PRICE(number) | LIST(a,b,c) | ENUM(val) | RICHTEXT(text)\nCOMP_END(ID)\nOne event per line.";
-      }
-      if (mode === "pash+id") {
-        return lang === "ru" ? "\u0418\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0439 PASH+ID \u0444\u043E\u0440\u043C\u0430\u0442 (\u043C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0435 \u0441\u0436\u0430\u0442\u0438\u0435):\nCOMP_ID|DICT_ID|DICT_ID|\u0447\u0438\u0441\u043B\u043E|DICT_ID\n\u0412\u0441\u0435 \u0442\u0435\u043A\u0441\u0442\u043E\u0432\u044B\u0435 \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u044F \u0437\u0430\u043C\u0435\u043D\u044F\u0439 \u043D\u0430 \u0447\u0438\u0441\u043B\u043E\u0432\u044B\u0435 ID \u0438\u0437 \u0441\u043B\u043E\u0432\u0430\u0440\u044F.\n\u0427\u0438\u0441\u043B\u0430 (\u0446\u0435\u043D\u044B) \u043F\u0435\u0440\u0435\u0434\u0430\u0432\u0430\u0439 \u043D\u0430\u043F\u0440\u044F\u043C\u0443\u044E. \u0420\u0430\u0437\u0434\u0435\u043B\u0438\u0442\u0435\u043B\u044C | . \u041E\u0434\u0438\u043D \u043A\u043E\u043C\u043F\u043E\u043D\u0435\u043D\u0442 \u2014 \u043E\u0434\u043D\u0430 \u0441\u0442\u0440\u043E\u043A\u0430." : "Use PASH+ID format (maximum compression):\nCOMP_ID|DICT_ID|DICT_ID|number|DICT_ID\nReplace all text values with numeric dictionary IDs.\nNumbers (prices) pass directly. Separator | . One component per line.";
-      }
-      return lang === "ru" ? "\u0418\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0439 PASH \u0444\u043E\u0440\u043C\u0430\u0442:\nCOMP_ID|\u043F\u043E\u043B\u04351|\u043F\u043E\u043B\u04352|\u043F\u043E\u043B\u04353|...\n\u0420\u0430\u0437\u0434\u0435\u043B\u0438\u0442\u0435\u043B\u044C \u2014 \u043F\u0430\u0439\u043F |. \u041A\u0430\u0436\u0434\u044B\u0439 \u043A\u043E\u043C\u043F\u043E\u043D\u0435\u043D\u0442 \u2014 \u043E\u0442\u0434\u0435\u043B\u044C\u043D\u0430\u044F \u0441\u0442\u0440\u043E\u043A\u0430.\n\u041D\u0435\u0441\u043A\u043E\u043B\u044C\u043A\u043E \u043A\u043E\u043C\u043F\u043E\u043D\u0435\u043D\u0442\u043E\u0432 \u2014 \u043A\u0430\u0436\u0434\u044B\u0439 \u043D\u0430 \u043D\u043E\u0432\u043E\u0439 \u0441\u0442\u0440\u043E\u043A\u0435.\n\u041E\u043F\u0446\u0438\u043E\u043D\u0430\u043B\u044C\u043D\u043E \u043F\u0435\u0440\u0432\u0430\u044F \u0441\u0442\u0440\u043E\u043A\u0430: v:1\n\u0415\u0441\u043B\u0438 \u043F\u043E\u043B\u0435 \u0441\u043E\u0434\u0435\u0440\u0436\u0438\u0442 | \u2014 \u044D\u043A\u0440\u0430\u043D\u0438\u0440\u0443\u0439: \\|" : "Use PASH format:\nCOMP_ID|field1|field2|field3|...\nSeparator is pipe |. One component per line.\nMultiple components \u2014 one per line.\nOptional first line: v:1\nIf a field value contains | \u2014 escape it: \\|";
-    }
-    function _buildRegistry(schemas, mode) {
-      const lines = [];
-      for (const [id, schema] of Object.entries(schemas)) {
-        const fieldList = schema.fields.map((f) => {
-          let s = f.label;
-          if (f.type === "enum" && f.values)
-            s += `(${f.values.join("|")})`;
-          if (f.format)
-            s += `[${f.format}]`;
-          if (f.required)
-            s += "*";
-          return s;
-        }).join(" | ");
-        const example = _buildOneExample(id, schema, mode);
-        lines.push(`${id} = ${schema.name}: ${fieldList || "\u2014"}`);
-        lines.push(`   \u2192 ${example}`);
-        lines.push("");
-      }
-      lines.push("* = \u043E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u043E\u0435 \u043F\u043E\u043B\u0435 / required");
-      lines.push("[currency] = \u043F\u0435\u0440\u0435\u0434\u0430\u0432\u0430\u0439 \u0442\u043E\u043B\u044C\u043A\u043E \u0447\u0438\u0441\u043B\u043E, \u043A\u043B\u0438\u0435\u043D\u0442 \u0434\u043E\u0431\u0430\u0432\u0438\u0442 \u0432\u0430\u043B\u044E\u0442\u0443 / pass raw number");
-      return lines.join("\n");
-    }
-    function _buildOneExample(id, schema, mode) {
-      const samples = {
-        title: mode === "pash+id" ? "102" : "\u0421\u043C\u0430\u0440\u0442\u0444\u043E\u043D X1",
-        desc: mode === "pash+id" ? "45" : "AMOLED 120Hz",
-        price: "69990",
-        cta: mode === "pash+id" ? "12" : "\u041A\u0443\u043F\u0438\u0442\u044C",
-        level: "info",
-        message: mode === "pash+id" ? "78" : "\u0414\u043E\u0441\u0442\u0430\u0432\u043A\u0430 1-2 \u0434\u043D\u044F",
-        items: "AMOLED,256GB,5000mAh",
-        headline: mode === "pash+id" ? "55" : "\u0424\u043B\u0430\u0433\u043C\u0430\u043D \u0441\u0435\u0437\u043E\u043D\u0430",
-        sub: mode === "pash+id" ? "56" : "\u041B\u0443\u0447\u0448\u0438\u0439 \u0441\u043C\u0430\u0440\u0442\u0444\u043E\u043D 2025",
-        text: mode === "pash+id" ? "60" : "\u0422\u0435\u043A\u0441\u0442 \u043F\u0430\u0440\u0430\u0433\u0440\u0430\u0444\u0430",
-        body: mode === "pash+id" ? "61" : "\u0421\u043E\u0434\u0435\u0440\u0436\u0438\u043C\u043E\u0435 \u0431\u043B\u043E\u043A\u0430",
-        author: "\u0410\u0432\u0442\u043E\u0440",
-        caption: "\u041F\u043E\u0434\u043F\u0438\u0441\u044C",
-        url: "https://example.com/image.jpg",
-        alt: "\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435",
-        headers: "\u0413\u043E\u0434,\u0423\u0437\u043B\u044B",
-        rows: "1969,4;1970,9",
-        lang: "python",
-        display: "block",
-        formula: "E = mc^2",
-        type: "youtube",
-        summary: "\u041A\u0440\u0430\u0442\u043A\u043E\u0435 \u043E\u043F\u0438\u0441\u0430\u043D\u0438\u0435",
-        content: "\u0422\u0435\u043A\u0441\u0442 \u0441 **\u0430\u043A\u0446\u0435\u043D\u0442\u043E\u043C**",
-        date: "2025-01-01"
-      };
-      if (mode === "events") {
-        const events = [`COMP_START(${id})`];
-        schema.fields.forEach((f) => {
-          const val = samples[f.label] || "value";
-          const evType = f.format === "currency" ? "PRICE" : f.format === "date" ? "DATE" : f.type === "list" ? "LIST" : f.type === "enum" ? "ENUM" : f.type === "richtext" ? "RICHTEXT" : "TEXT";
-          events.push(`${evType}(${val})`);
-        });
-        events.push(`COMP_END(${id})`);
-        return "\n   " + events.join("\n   ");
-      }
-      const values = schema.fields.map((f) => samples[f.label] || "");
-      return `${id}|${values.join("|")}`;
-    }
-    function _buildExamples(schemas, mode) {
-      const ids = Object.keys(schemas);
-      const lines = [];
-      if (ids.length > 0) {
-        const id = ids[0];
-        const schema = schemas[id];
-        lines.push("# \u041E\u0434\u0438\u043D \u043A\u043E\u043C\u043F\u043E\u043D\u0435\u043D\u0442");
-        lines.push(_buildOneExample(id, schema, mode));
-        lines.push("");
-      }
-      if (ids.length > 1 && mode !== "events") {
-        lines.push("# \u041D\u0435\u0441\u043A\u043E\u043B\u044C\u043A\u043E \u043A\u043E\u043C\u043F\u043E\u043D\u0435\u043D\u0442\u043E\u0432");
-        lines.push(_buildOneExample(ids[0], schemas[ids[0]], mode));
-        lines.push(_buildOneExample(ids[1], schemas[ids[1]], mode));
-        lines.push("");
-      }
-      return lines.join("\n");
-    }
-    function _buildRichtextNote(lang) {
-      return lang === "ru" ? [
-        "## \u0421\u0438\u043D\u0442\u0430\u043A\u0441\u0438\u0441 richtext-\u043F\u043E\u043B\u0435\u0439",
-        "",
-        "\u0412 \u043F\u043E\u043B\u044F\u0445 \u0441 \u0442\u0438\u043F\u043E\u043C richtext \u043F\u043E\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u0442\u0441\u044F inline-\u0440\u0430\u0437\u043C\u0435\u0442\u043A\u0430:",
-        "  **\u0436\u0438\u0440\u043D\u044B\u0439**     \u2014 bold",
-        "  _\u043A\u0443\u0440\u0441\u0438\u0432_       \u2014 italic",
-        "  `\u043A\u043E\u0434`          \u2014 inline code",
-        "  [\u0442\u0435\u043A\u0441\u0442](url)   \u2014 \u0441\u0441\u044B\u043B\u043A\u0430",
-        "  \\n             \u2014 \u043F\u0435\u0440\u0435\u043D\u043E\u0441 \u0441\u0442\u0440\u043E\u043A\u0438",
-        "",
-        "\u0422\u043E\u043B\u044C\u043A\u043E inline. \u0417\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0438 (#) \u2014 \u0437\u0430\u043F\u0440\u0435\u0449\u0435\u043D\u044B, \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0439 \u043A\u043E\u043C\u043F\u043E\u043D\u0435\u043D\u0442 20."
-      ].join("\n") : [
-        "## Richtext field syntax",
-        "",
-        "Fields with type richtext support inline markup:",
-        "  **bold**       \u2014 bold",
-        "  _italic_       \u2014 italic",
-        "  `code`         \u2014 inline code",
-        "  [text](url)    \u2014 link",
-        "  \\n             \u2014 line break",
-        "",
-        "Inline only. Headings (#) are forbidden \u2014 use component 20."
-      ].join("\n");
-    }
-    module.exports = { generateSystemPrompt };
-  }
-});
-
 // package.json
 var require_package = __commonJS({
   "package.json"(exports, module) {
     module.exports = {
       name: "pash-sdk",
       version: "1.0.0",
-      description: "Protocol for Agentic Semantic Hypermedia \u2014 token-efficient UI format for AI agents",
+      description: "PASH \u2014 Protocol for Agentic Semantic Hypermedia. LLM-agnostic UI protocol. For prompt generation use @pash/prompt.",
       main: "dist/pash.cjs.js",
       module: "dist/pash.esm.js",
       browser: "dist/pash.browser.js",
@@ -1381,7 +1172,6 @@ var require_package = __commonJS({
         test: "jest --forceExit",
         "test:coverage": "jest --coverage --forceExit",
         "test:watch": "jest --watch",
-        prompt: "node scripts/generate-prompt.js",
         benchmark: "node benchmarks/token-count.js",
         prepublishOnly: "npm run build && npm test",
         release: "node scripts/publish.sh"
@@ -1451,7 +1241,6 @@ var require_pash_sdk_v1_0 = __commonJS({
     } = require_locale();
     var { validateComponent, validateStream } = require_validator();
     var { registerComponent, isRegistered, listComponents } = require_extend();
-    var { generateSystemPrompt } = require_prompt();
     var { VERSION } = require_version();
     module.exports = {
       // ─── Schemas ────────────────────────────────────────────────────────────────
@@ -1497,8 +1286,6 @@ var require_pash_sdk_v1_0 = __commonJS({
       registerComponent,
       isRegistered,
       listComponents,
-      // ─── System Prompt ──────────────────────────────────────────────────────────
-      generateSystemPrompt,
       // ─── Meta ───────────────────────────────────────────────────────────────────
       VERSION
     };

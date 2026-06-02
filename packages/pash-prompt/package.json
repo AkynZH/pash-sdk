@@ -1,0 +1,33 @@
+{
+  "name": "@pash/prompt",
+  "version": "1.0.0",
+  "description": "Prompt Engine for PASH — generates LLM system prompts from component schemas",
+  "main": "index.js",
+  "types": "types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./index.js",
+      "types": "./types/index.d.ts"
+    }
+  },
+  "files": ["src/", "types/", "index.js", "README.md"],
+  "scripts": {
+    "test": "jest --forceExit",
+    "generate-prompt": "node scripts/generate-system-prompt.js",
+    "generate-prompt:stdout": "node scripts/generate-system-prompt.js --stdout"
+  },
+  "keywords": ["pash", "llm", "prompt", "ai", "agent"],
+  "author": "Sergei",
+  "license": "MIT",
+  "peerDependencies": {
+    "pash-sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "pash-sdk": "^1.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": ["**/test/**/*.test.js"]
+  }
+}

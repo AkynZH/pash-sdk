@@ -203,19 +203,6 @@ export function registerComponent(id: number, definition: ComponentDefinition): 
 export function isRegistered(id: number): boolean;
 export function listComponents(): ComponentListItem[];
 
-// ─── System Prompt ────────────────────────────────────────────────────────────
-
-export type PromptMode = 'pash' | 'pash+id' | 'events';
-export type PromptLang = 'ru' | 'en';
-
-export interface PromptOptions {
-  schemas?:    SchemaRegistry;
-  mode?:       PromptMode;
-  lang?:       PromptLang;
-}
-
-export function generateSystemPrompt(options?: PromptOptions): string;
-
 // ─── Schemas ─────────────────────────────────────────────────────────────────
 
 export const SCHEMAS:     SchemaRegistry;

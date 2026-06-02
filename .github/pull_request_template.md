@@ -9,8 +9,8 @@
 - [ ] Breaking change
 
 ## Checklist
-- [ ] `npm test` passes (218 tests green)
+- [ ] `npm test` passes (all tests green)
 - [ ] `types/index.d.ts` updated (if new public API)
 - [ ] `spec/pash-v1.md` updated (if protocol changes)
-- [ ] `npm run prompt` run and `SYSTEM_PROMPT.md` committed (if schemas changed)
+- [ ] `SYSTEM_PROMPT.md` regenerated via `@pash/prompt` and committed (if schemas changed)
 - [ ] New functionality has tests

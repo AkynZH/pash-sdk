@@ -26,7 +26,7 @@ jobs:
 
       - run: npm ci
       - run: npm run build
-      - run: npm run prompt
+      - run: npm install @pash/prompt && node node_modules/@pash/prompt/scripts/generate-system-prompt.js
       - run: cp -r dist playground/dist
 
       - uses: actions/configure-pages@v4
