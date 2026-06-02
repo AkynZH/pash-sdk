@@ -6,6 +6,9 @@
   "module": "dist/pash.esm.js",
   "browser": "dist/pash.browser.js",
   "types": "types/index.d.ts",
+  "workspaces": [
+    "packages/*"
+  ],
   "exports": {
     ".": {
       "import": "./dist/pash.esm.js",
