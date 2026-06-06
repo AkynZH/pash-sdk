@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PASH — Protocol for Agentic Semantic Hypermedia</title>
+<style>
+:root{--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#c9d1d9;--accent:#58a6ff;--green:#3fb950;--yellow:#d29922;--red:#f85149;--code:#0d1117}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;max-width:900px;margin:0 auto;padding:2rem 1.5rem}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+h1,h2,h3,h4{color:#f0f6fc;margin:1.5rem 0 .75rem}
+h1{font-size:2rem;border-bottom:1px solid var(--border);padding-bottom:.5rem}
+h2{font-size:1.4rem;border-bottom:1px solid var(--border);padding-bottom:.3rem}
+h3{font-size:1.1rem}
+p{margin:.5rem 0}
+code{background:var(--code);padding:.15rem .4rem;border-radius:4px;font-size:.9em}
+pre{background:var(--code);border:1px solid var(--border);border-radius:6px;padding:1rem;overflow-x:auto;margin:.75rem 0}
+pre code{background:none;padding:0}
+table{width:100%;border-collapse:collapse;margin:.75rem 0}
+th,td{border:1px solid var(--border);padding:.5rem .75rem;text-align:left}
+th{background:var(--card)}
+tr:nth-child(even){background:var(--card)}
+.badge{display:inline-block;padding:.2rem .5rem;border-radius:12px;font-size:.75rem;font-weight:600;margin-right:.3rem}
+.badge-green{background:rgba(63,185,80,.15);color:var(--green)}
+.badge-blue{background:rgba(88,166,255,.15);color:var(--accent)}
+.badge-yellow{background:rgba(210,153,34,.15);color:var(--yellow)}
+blockquote{border-left:3px solid var(--accent);padding:.5rem 1rem;margin:.75rem 0;background:var(--card);border-radius:0 6px 6px 0}
+ul,ol{padding-left:1.5rem;margin:.5rem 0}
+li{margin:.25rem 0}
+hr{border:none;border-top:1px solid var(--border);margin:1.5rem 0}
+.tag{display:inline-block;background:var(--card);border:1px solid var(--border);padding:.15rem .5rem;border-radius:4px;font-size:.8rem;margin:.15rem}
+.hero{text-align:center;padding:2rem 0}
+.hero h1{font-size:2.5rem;border:none}
+.hero p{font-size:1.1rem;color:#8b949e}
+.stats{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin:1.5rem 0}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem 1.5rem;text-align:center}
+.stat-value{font-size:1.5rem;font-weight:700;color:var(--green)}
+.stat-label{font-size:.8rem;color:#8b949e}
+</style>
+</head>
+<body>
+
+<div class="hero">
+<h1>PASH Protocol</h1>
+<p><strong>Protocol for Agentic Semantic Hypermedia</strong> — LLM-agnostic UI protocol</p>
+<p>
+<span class="badge badge-green">v1.1.0</span>
+<span class="badge badge-blue">MIT License</span>
+<span class="badge badge-yellow">224 tests</span>
+</p>
+<p><a href="https://www.npmjs.com/package/pash-sdk">npm: pash-sdk</a> · <a href="https://www.npmjs.com/package/@akynzhe/pash-js">npm: @akynzhe/pash-js</a> · <a href="https://github.com/AkynZH/pash-sdk">GitHub</a></p>
+</div>
+
+<div class="stats">
+<div class="stat"><div class="stat-value">−79%</div><div class="stat-label">vs HTML tokens</div></div>
+<div class="stat"><div class="stat-value">−87%</div><div class="stat-label">PASH+ID mode</div></div>
+<div class="stat"><div class="stat-value">14</div><div class="stat-label">UI components</div></div>
+<div class="stat"><div class="stat-value">3</div><div class="stat-label">Output modes</div></div>
+</div>
+
+<hr>
+
+<h2>What is PASH?</h2>
+<p>The AI doesn't write markup. It sends intent. The client renders.</p>
+<p>PASH is a token-efficient text format for transmitting UI components from LLMs to clients.</p>
+
+<h3>Instead of HTML (52 tokens):</h3>
+<pre><code>&lt;div class="product-card"&gt;&lt;h3&gt;Смартфон X1&lt;/h3&gt;&lt;p&gt;AMOLED 120Hz&lt;/p&gt;
+&lt;span class="price"&gt;69 990 ₽&lt;/span&gt;&lt;button&gt;Купить&lt;/button&gt;&lt;/div&gt;</code></pre>
+
+<h3>The AI outputs PASH (11 tokens — 79% fewer):</h3>
+<pre><code>1|Смартфон X1|AMOLED 120Hz|69990|Купить</code></pre>
+
+<p>Your client knows <code>1 = ProductCard</code>, renders it with your CSS, your locale, your design system.</p>
+
+<hr>
+
+<h2>Quick Start</h2>
+
+<h3>Step 1 — Install</h3>
+<pre><code>npm install pash-sdk @pash/prompt</code></pre>
+
+<h3>Step 2 — Generate system prompt</h3>
+<pre><code>const { PromptEngine } = require('@pash/prompt');
+const { SCHEMAS }      = require('pash-sdk');
+
+const engine = new PromptEngine({ schemas: SCHEMAS });
+const system = engine.generate({ lang: 'ru', mode: 'pash' });
+// Auto-generated from your component registry. Always in sync.</code></pre>
+
+<h3>Step 3 — Decode AI response</h3>
+<pre><code>const { decodeStream, renderStream } = require('pash-sdk');
+
+const aiResponse = `
+1|Смартфон X1|AMOLED 120Hz, 256GB|69990|Купить
+2|warn|Последний в наличии
+`;
+
+const decoded = decodeStream(aiResponse);
+// { version: null, components: [ ProductCard, Notification ] }
+
+document.getElementById('output').innerHTML = renderStream(decoded);</code></pre>
+
+<h3>Step 4 — Streaming (optional)</h3>
+<pre><code>const { StreamingDecoder, renderComponent } = require('pash-sdk');
+
+const decoder = new StreamingDecoder((component) => {
+  document.getElementById('output').innerHTML += renderComponent(component);
+});
+
+const response = await fetch('/api/ai');
+const reader   = response.body.getReader();
+const utf8     = new TextDecoder();
+
+while (true) {
+  const { done, value } = await reader.read();
+  if (done) { decoder.flush(); break; }
+  decoder.push(utf8.decode(value));
+}</code></pre>
+
+<hr>
+
+<h2>Format</h2>
+<pre><code>COMP_ID|field1|field2|field3|...</code></pre>
+<ul>
+<li><code>|</code> — separator (1 BPE token in GPT-4, LLaMA-3)</li>
+<li><code>\|</code> — escaped pipe inside a value</li>
+<li><code>#</code> — nested component prefix</li>
+<li><code>v:1</code> — optional version header (first line)</li>
+<li><code>\n</code> — component separator</li>
+</ul>
+
+<h3>Token efficiency</h3>
+<table>
+<tr><th>Format</th><th>Tokens</th><th>vs HTML</th></tr>
+<tr><td>HTML</td><td>~52</td><td>—</td></tr>
+<tr><td>JSON</td><td>~34</td><td>−35%</td></tr>
+<tr><td>Markdown</td><td>~26</td><td>−50%</td></tr>
+<tr><td><strong>PASH</strong></td><td><strong>~11</strong></td><td><strong>−79%</strong></td></tr>
+<tr><td>PASH+ID</td><td>~7</td><td>−87%</td></tr>
+</table>
+
+<hr>
+
+<h2>Component Registry</h2>
+
+<h3>UI Components (ID 1–6)</h3>
+<table>
+<tr><th>ID</th><th>Component</th><th>Fields</th></tr>
+<tr><td>1</td><td>ProductCard</td><td>title* | desc | price[currency] | cta</td></tr>
+<tr><td>2</td><td>Notification</td><td>level*(info|warn|error) | message*</td></tr>
+<tr><td>3</td><td>List</td><td>title | items*</td></tr>
+<tr><td>4</td><td>Hero</td><td>headline* | sub | cta</td></tr>
+<tr><td>5</td><td>Article</td><td>title* | author | date | summary</td></tr>
+<tr><td>6</td><td>RichBlock</td><td>content*[richtext]</td></tr>
+</table>
+
+<h3>PASH-Doc Blocks (ID 20–32)</h3>
+<table>
+<tr><th>ID</th><th>Block</th><th>Fields</th></tr>
+<tr><td>20</td><td>Heading</td><td>level*(1-6) | text*</td></tr>
+<tr><td>21</td><td>Paragraph</td><td>text*[richtext]</td></tr>
+<tr><td>22</td><td>Code</td><td>lang | body*</td></tr>
+<tr><td>23</td><td>Blockquote</td><td>author | text*[richtext]</td></tr>
+<tr><td>24</td><td>Image</td><td>url* | alt | caption</td></tr>
+<tr><td>25</td><td>Divider</td><td>—</td></tr>
+<tr><td>26</td><td>Table</td><td>headers* | rows*</td></tr>
+<tr><td>27</td><td>OrderedList</td><td>title | items*</td></tr>
+<tr><td>28</td><td>BulletList</td><td>title | items*</td></tr>
+<tr><td>29</td><td>Note</td><td>level*(info|tip|warn|danger) | text*</td></tr>
+<tr><td>30</td><td>Spoiler</td><td>title* | body*[richtext]</td></tr>
+<tr><td>31</td><td>Math</td><td>display*(block|inline) | formula*</td></tr>
+<tr><td>32</td><td>Embed</td><td>type*(youtube|...) | url* | title</td></tr>
+</table>
+<p><code>*</code> = required. ID 40+ available for custom components.</p>
+
+<hr>
+
+<h2>Modes</h2>
+<table>
+<tr><th>Mode</th><th>Example</th><th>Tokens</th></tr>
+<tr><td><code>pash</code></td><td><code>1|Смартфон X1|AMOLED|69990|Купить</code></td><td>~11</td></tr>
+<tr><td><code>pash+id</code></td><td><code>1|102|45|69990|12</code></td><td>~7</td></tr>
+<tr><td><code>events</code></td><td><code>COMP_START(1)\nTEXT(Смартфон X1)...</code></td><td>similar</td></tr>
+</table>
+
+<hr>
+
+<h2>Custom component</h2>
+<pre><code>const { registerComponent } = require('pash-sdk');
+
+registerComponent(40, {
+  name: 'UserCard',
+  fields: [
+    { id: 0, type: 'string', label: 'name',  required: true },
+    { id: 1, type: 'string', label: 'email'                 },
+  ],
+  render: (f) => `&lt;div class="user-card"&gt;&lt;b&gt;${f.name}&lt;/b&gt;&lt;span&gt;${f.email}&lt;/span&gt;&lt;/div&gt;`,
+});
+
+// AI can now generate: 40|Иван Петров|ivan@example.com</code></pre>
+
+<hr>
+
+<h2>Locale</h2>
+<pre><code>const { setLocale } = require('pash-sdk');
+
+setLocale('en-US');  // price: 69990 → $69,990
+setLocale('de-DE');  // price: 69990 → 69.990 €
+setLocale('ru-RU');  // price: 69990 → 69 990 ₽  (default)</code></pre>
+
+<hr>
+
+<h2>SDK Modules</h2>
+<p>
+<span class="tag">decodeStream</span>
+<span class="tag">parseLine</span>
+<span class="tag">encode</span>
+<span class="tag">encodeStream</span>
+<span class="tag">renderComponent</span>
+<span class="tag">renderStream</span>
+<span class="tag">StreamingDecoder</span>
+<span class="tag">EventStreamDecoder</span>
+<span class="tag">Dictionary</span>
+<span class="tag">setLocale</span>
+<span class="tag">addLocale</span>
+<span class="tag">validateStream</span>
+<span class="tag">registerComponent</span>
+<span class="tag">SCHEMAS</span>
+<span class="tag">VERSION</span>
+</p>
+
+<hr>
+
+<h2>Links</h2>
+<ul>
+<li><a href="https://www.npmjs.com/package/pash-sdk">npm: pash-sdk</a></li>
+<li><a href="https://www.npmjs.com/package/@akynzhe/pash-js">npm: @akynzhe/pash-js</a></li>
+<li><a href="https://github.com/AkynZH/pash-sdk">GitHub: pash-sdk</a></li>
+<li><a href="https://github.com/AkynZH/pash-js">GitHub: pash-js</a></li>
+<li><a href="https://github.com/AkynZH/pash-sdk/blob/main/SYSTEM_PROMPT.md">System Prompts</a></li>
+<li><a href="https://github.com/AkynZH/pash-sdk/blob/main/spec/pash-v1.md">Specification</a></li>
+</ul>
+
+<hr>
+<p style="text-align:center;color:#8b949e;font-size:.85rem">
+PASH v1.1.0 · MIT License · Copyright (c) 2026 Sergei
+</p>
+
+</body>
+</html>
