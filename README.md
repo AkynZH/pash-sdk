@@ -252,4 +252,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 ## License
 
-[MIT](LICENSE) — Copyright (c) 2026 Sergei
+MIT © [Сергей Павленко](https://github.com/AkynZH)
